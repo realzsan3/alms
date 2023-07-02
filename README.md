@@ -1,3 +1,10 @@
+# 7X24小时在线要饭🍚，欢迎👏各位老板打赏，打赏一分也是爱
+1. 纯原生js手撸，无任何框架
+2. 不用数据库，不用部署服务器上
+3. 零成本，代码部署GitHub，CF托管加速，数据托管leancloud
+4. 移动端交互体验超棒，一键打赏，免去app来回切换
+5. 微信内分享打赏更方便，长按即可（需要域名备案
+
 # 食用教程：
 
 ## 克隆代码
@@ -13,6 +20,7 @@
 ### 替换为自己的scheme url
 
 支付宝替换：`qrcode`后面的值改为自己的收款码链接
+
 `alipays://platformapi/startapp?saId=10000007&qrcode=https%3A%2F%2Fqr.alipay.com%2Ffkx17568wleuqk0ebdb8ia3`
 
 ### 替换为自己的leancloud API key
@@ -30,3 +38,9 @@
 # TO DO
 
 - [ ] 实现对象存储，可以免去备案，方便微信内传播
+
+# 感谢
+1. 模版来自[HTML5 UP](html5up.net)
+2. 部分灵感参考https://github.com/DomeenoH/Hexo-Donate
+3. https://blog.dominoh.com/donate
+4. 感谢ChatGPT🙏，纯原生js，通过GPT辅助完成✅
