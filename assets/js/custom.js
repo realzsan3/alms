@@ -1,26 +1,25 @@
-var userAgent = navigator.userAgent.toLowerCase();
+var userAgent = navigator.userAgent;
 var API_BASE_URL = 'lecdapi.yaofan.site';
 var App_Key = '7iudhWquXYN0uToAuxseBFJe'
 
-function isWechatBrowser() {
-	return typeof WeixinJSBridge !== "undefined";
+// 判断是否在微信内
+if (userAgent.indexOf("MicroMessenger") !== -1) {
+	document.getElementById("wxtips").textContent = "长按图片，点击识别图中二维码/赞赏码"
+	document.getElementById("alitips").textContent = "点击右上角，选择在（默认）浏览器中打开"
 }
 
-// 判断是否在微信内
-if (isWechatBrowser()) {
-	document.getElementById("myLink").href = window.location.href;
-	document.getElementById("wxtips").textContent = "长按图片，点击识别图中二维码"
-	document.getElementById("alitips").textContent = "点击右上角，选择在默认浏览器中打开"
-}
 // 判断是否为Android设备
-else if (userAgent.indexOf("android") !== -1) {
+else if (userAgent.indexOf("Android") !== -1) {
 	document.getElementById("myLink").href = "weixin://";
 	document.getElementById("wxtips").textContent = "长按图片保存本地，点击图片打开微信,点击右上角扫一扫,选择相册并选择刚才保存的图片"
+	document.getElementById("alitips").textContent = "点击图片一键施舍"
 }
+
 // 判断是否为iOS设备
-else if (userAgent.indexOf("iphone") !== -1 || userAgent.indexOf("ipad") !== -1 || userAgent.indexOf("ipod") !== -1) {
+else if (userAgent.indexOf("iPhone") !== -1 || userAgent.indexOf("iPad") !== -1 || userAgent.indexOf("iPod") !== -1) {
 	document.getElementById("myLink").href = "weixin://scanqrcode";
 	document.getElementById("wxtips").textContent = "长按图片保存本地，点击图片打开微信,点击相册并选择刚才保存的图片"
+	document.getElementById("alitips").textContent = "点击图片一键施舍"
 }
 
 // 其他设备
