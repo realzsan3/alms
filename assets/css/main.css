@@ -2448,3 +2448,6 @@ figure figcaption {
 	color: #999;
 	font-style: italic;
   }
+.font-size {
+	font-size: smaller;
+}

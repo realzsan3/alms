@@ -229,7 +229,7 @@ const renderList = (results) => {
 			const nameCell = document.createElement('td');
 			nameCell.textContent = item.name;
 			nameCell.classList.add('orange');
-			nameCell.classList.add('.border')
+			nameCell.classList.add('border')
 			row.appendChild(nameCell);
 
 			const payCell = document.createElement('td');
@@ -239,7 +239,7 @@ const renderList = (results) => {
 			} else if (item.pay === '支付宝') {
 				payCell.classList.add('blue');
 			}
-			payCell.classList.add('.border');
+			payCell.classList.add('border');
 			row.appendChild(payCell);
 
 			const amountCell = document.createElement('td');
@@ -251,12 +251,13 @@ const renderList = (results) => {
 			} else if (item.amount > 100 && item.amount <= 99999999) {
 				amountCell.classList.add('red');
 			}
-			amountCell.classList.add('.border');
+			amountCell.classList.add('border');
 			row.appendChild(amountCell);
 
 			const messageCell = document.createElement('td');
 			messageCell.textContent = item.message;
-			messageCell.classList.add('.border');
+			messageCell.classList.add('border');
+			messageCell.classList.add('font-size');
 			row.appendChild(messageCell);
 
 			listBody.appendChild(row);
