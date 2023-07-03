@@ -53,3 +53,4 @@
 2. [部分灵感参考](https://github.com/DomeenoH/Hexo-Donate)
 3. [donate](https://blog.dominoh.com/donate)
 4. 感谢ChatGPT🙏，纯原生js，通过GPT辅助完成✅
+5. 感谢Midjourney🙏提供背景图片

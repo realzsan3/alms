@@ -2377,7 +2377,7 @@ figure figcaption {
 
 /* 施舍榜 */
 #listContainer {
-	background-color: #f2f2f2;
+	background-color: rgba(242, 242, 242, 0.8);
 	padding: 20px;
 	margin-top: 100px;
 	width: 100%;
