@@ -2383,6 +2383,10 @@ figure figcaption {
 	width: 180%;
 }
 
+#listContainer h1 {
+	font-family: "Wencang",'Source Sans Pro', sans-serif;
+}
+
 #listTable {
 	width: 100%;
 	margin-top: 50px;
@@ -2393,7 +2397,7 @@ figure figcaption {
 #listTable td {
 	padding: 10px;
 	text-align: center;
-	border-top: 1px solid #ccc;
+	border-top: 1px solid #a9a8a8;
 }
 
 #listTable th {
@@ -2411,6 +2415,10 @@ figure figcaption {
 	#listContainer {
 		margin-top: 50px;
 		width: auto;
+	}
+
+	#listContainer h1 {
+		font-family: "Wencang",'Source Sans Pro', sans-serif;
 	}
 
 	#listTable td {
@@ -2442,12 +2450,30 @@ figure figcaption {
 	font-weight: bold;
 }
 .border {
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid #a9a8a8;
 }
 .default-text {
 	color: #999;
 	font-style: italic;
   }
-.font-size {
+.font-style {
 	font-size: smaller;
+	font-family: "Wencang",'Source Sans Pro', sans-serif;
+}
+
+/* 公告板 */
+@font-face {
+	font-family: "Wencang";
+	src: url(../webfonts/wencang.woff)
+}
+
+.notice-board {
+	background-color: rgba(242, 242, 242, 0.8);
+	padding: 10px;
+	margin-bottom: 60px;
+	font-family: "Wencang",'Source Sans Pro', sans-serif;
+}
+
+.notice-board p {
+	margin-bottom: auto;
 }

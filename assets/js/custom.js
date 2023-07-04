@@ -257,7 +257,7 @@ const renderList = (results) => {
 			const messageCell = document.createElement('td');
 			messageCell.textContent = item.message;
 			messageCell.classList.add('border');
-			messageCell.classList.add('font-size');
+			messageCell.classList.add('font-style');
 			row.appendChild(messageCell);
 
 			listBody.appendChild(row);
