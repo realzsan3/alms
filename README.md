@@ -1,7 +1,7 @@
 # 7X24小时在线要饭🍚，欢迎👏各位老板打赏，打赏一分也是爱
 1. 纯原生js手撸，无任何框架
 2. 不用数据库，不用部署服务器上
-3. 零成本，代码部署GitHub，CF托管加速，数据托管在`leancloud`
+3. 零成本，网站部署CF，CF托管加速，数据托管在`leancloud`
 4. 移动端交互体验超棒，一键打赏，免去app来回切换
 5. 微信内分享打赏更方便，长按即可（需域名备案
 
@@ -29,9 +29,14 @@
 2. 使用开发版（免费
 3. 设置-应用凭证-复制`AppKey`
 4. `custom.js`内修改`App_Key`为上一步复制的
-5. 国际版需要使用自定义的域名，`API_BASE_URL` 改为自己的，先去设置-域名绑定
+5. 国际版需要使用自定义的域名，`API_BASE_URL` 改为自己的，先去`设置-域名绑定`
 
 ## 部署
+### 推荐[cloudflare-page](https://dash.cloudflare.com/3014b5f3c656f699db6e995b28a8eb44/workers-and-pages/create/pages)
+域名、网页全托管，妈妈再也不担心我的网页速度和安全了
+
+真 * 慈善家
+
 ### GitHub pages等服务器
 通过GitHub pages，域名托管在cloudflare上，几块钱买一年的域名，完美搞定
 
