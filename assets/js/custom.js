@@ -6,6 +6,7 @@ var App_Key = '7iudhWquXYN0uToAuxseBFJe'
 if (userAgent.indexOf("MicroMessenger") !== -1) {
 	document.getElementById("wxtips").textContent = "长按图片，点击识别图中二维码/赞赏码"
 	document.getElementById("alitips").textContent = "点击右上角，选择在（默认）浏览器中打开"
+	document.getElementById("btctips").textContent = "点击右上角，选择在（默认）浏览器中打开"
 }
 
 // 判断是否为Android设备
@@ -13,6 +14,7 @@ else if (userAgent.indexOf("Android") !== -1) {
 	document.getElementById("myLink").href = "weixin://";
 	document.getElementById("wxtips").textContent = "长按图片保存本地，点击图片打开微信,点击右上角扫一扫,选择相册并选择刚才保存的图片"
 	document.getElementById("alitips").textContent = "点击图片一键施舍"
+	document.getElementById("btctips").textContent = "点击图片一键施舍"
 }
 
 // 判断是否为iOS设备
@@ -20,6 +22,7 @@ else if (userAgent.indexOf("iPhone") !== -1 || userAgent.indexOf("iPad") !== -1 
 	document.getElementById("myLink").href = "weixin://scanqrcode";
 	document.getElementById("wxtips").textContent = "长按图片保存本地，点击图片打开微信,点击相册并选择刚才保存的图片"
 	document.getElementById("alitips").textContent = "点击图片一键施舍"
+	document.getElementById("btctips").textContent = "点击图片一键施舍"
 }
 
 // 其他设备
@@ -267,3 +270,22 @@ const renderList = (results) => {
 
 // 调用 fetchData 函数获取数据并渲染列表
 fetchData();
+
+// 复制btc地址
+function copyAddress() {
+	var address = document.querySelector('.btc-address').textContent;
+
+	var tempInput = document.createElement('input');
+	tempInput.value = address;
+	document.body.appendChild(tempInput);
+	tempInput.select();
+	document.execCommand('copy');
+	document.body.removeChild(tempInput);
+
+	var alertBox = document.getElementById('alertBox');
+	alertBox.style.display = 'block';
+
+	setTimeout(function(){
+		alertBox.style.display = 'none';
+	}, 3000);
+}
