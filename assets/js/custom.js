@@ -239,8 +239,13 @@ const renderList = (results) => {
 			payCell.textContent = item.pay;
 			if (item.pay === '微信') {
 				payCell.classList.add('green');
+				payCell.textContent += ' CNY';
 			} else if (item.pay === '支付宝') {
 				payCell.classList.add('blue');
+				payCell.textContent += ' CNY';
+			} else if (item.pay === 'BTC') {
+				payCell.classList.add('orange');
+				payCell.textContent += ' ₿';
 			}
 			payCell.classList.add('border');
 			row.appendChild(payCell);
