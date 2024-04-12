@@ -2427,6 +2427,42 @@ figure figcaption {
 	font-weight: bold;
 }
 
+.golden {
+    color: goldenrod;
+}
+
+.deep-purple {
+    color: darkslateblue;
+}
+
+.dark-red {
+    color: darkred;
+}
+
+.bitcoin-orange {
+    color: #F7931A;
+}
+
+.common {
+	color: #666666;
+}
+
+.uncommon {
+	color: #0000ff;
+}
+
+.rare {
+	color: #ff69b4;
+}
+
+.epic {
+	color: #ffd700;
+}
+
+.legendary {
+	color: #800080;
+}
+
 .border {
 	border-bottom: 1px solid #a9a8a8;
 }

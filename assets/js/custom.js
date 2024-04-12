@@ -58,8 +58,16 @@ form.addEventListener('submit', function (event) {
 		errors.pay = '请选择微信或支付宝';
 	}
 
-	if (isNaN(amount) || amount < 0.01 || amount > 9999999) {
-		errors.amount = '请输入有效的施舍金额（0.01 - 9999999）';
+	if (pay === 'BTC') {
+		// 如果选择为 BTC，则将金额乘以 10^8 来转换为聪
+		const satoshiAmount = amount * Math.pow(10, 8);
+		if (isNaN(amount) || satoshiAmount < 1 || satoshiAmount > 9999999999999) {
+			errors.amount = '请输入有效的施舍金额（0.00000001 - 99999.99999999 BTC）';
+		}
+	} else {
+		if (isNaN(amount) || amount < 0.01 || amount > 9999999) {
+			errors.amount = '请输入有效的施舍金额（0.01 - 9999999）';
+		}
 	}
 
 	if (message.length > 500) {
@@ -231,7 +239,7 @@ const renderList = (results) => {
 
 			const nameCell = document.createElement('td');
 			nameCell.textContent = item.name;
-			nameCell.classList.add('orange');
+			nameCell.classList.add('deep-purple');
 			nameCell.classList.add('border')
 			row.appendChild(nameCell);
 
@@ -239,26 +247,55 @@ const renderList = (results) => {
 			payCell.textContent = item.pay;
 			if (item.pay === '微信') {
 				payCell.classList.add('green');
-				payCell.textContent += ' CNY';
+				payCell.textContent += ' (CNY)';
 			} else if (item.pay === '支付宝') {
 				payCell.classList.add('blue');
-				payCell.textContent += ' CNY';
+				payCell.textContent += ' (CNY)';
 			} else if (item.pay === 'BTC') {
-				payCell.classList.add('orange');
-				payCell.textContent += ' ₿';
+				payCell.classList.add('bitcoin-orange');
 			}
 			payCell.classList.add('border');
 			row.appendChild(payCell);
 
 			const amountCell = document.createElement('td');
-			amountCell.textContent = item.amount;
-			if (item.amount > 20 && item.amount <= 50) {
-				amountCell.classList.add('blue');
-			} else if (item.amount > 50 && item.amount <= 100) {
-				amountCell.classList.add('orange');
-			} else if (item.amount > 100 && item.amount <= 99999999) {
-				amountCell.classList.add('red');
+			let amountText = item.amount.toString(); // 将数值转换为字符串形式
+			if (amountText.includes('e-')) {
+				// 判断是否为科学计数法表示的小数
+				amountText = parseFloat(amountText).toFixed(8); // 将科学计数法转换为常规表示形式，并保留8位小数
 			}
+			if (item.pay === '微信' || item.pay === '支付宝') {
+				amountText = '¥ ' + amountText;
+			} else if (item.pay === 'BTC') {
+				amountText = '₿ ' + amountText;
+			}
+			amountCell.textContent = amountText;
+			if (item.pay === '微信' || item.pay === '支付宝') {
+				if (item.amount > 0 && item.amount <= 5) {
+					amountCell.classList.add('common');
+				} else if (item.amount > 5 && item.amount <= 100) {
+					amountCell.classList.add('uncommon');
+				} else if (item.amount > 100 && item.amount <= 200) {
+					amountCell.classList.add('rare');
+				} else if (item.amount > 200 && item.amount <= 500) {
+					amountCell.classList.add('epic');
+				} else if (item.amount > 500) {
+					amountCell.classList.add('legendary');
+				}
+			}
+			else if (item.pay === 'BTC') {
+				if (item.amount > 0.00000000 && item.amount <= 0.00000005) {
+					amountCell.classList.add('common');
+				} else if (item.amount > 0.00000005 && item.amount <= 0.000001) {
+					amountCell.classList.add('uncommon');
+				} else if (item.amount > 0.000001 && item.amount <= 0.000002) {
+					amountCell.classList.add('rare');
+				} else if (item.amount > 0.000002 && item.amount <= 0.000005) {
+					amountCell.classList.add('epic');
+				} else if (item.amount > 0.000005) {
+					amountCell.classList.add('legendary');
+				}
+			}
+
 			amountCell.classList.add('border');
 			row.appendChild(amountCell);
 
@@ -287,10 +324,5 @@ function copyAddress() {
 	document.execCommand('copy');
 	document.body.removeChild(tempInput);
 
-	var alertBox = document.getElementById('alertBox');
-	alertBox.style.display = 'block';
-
-	setTimeout(function(){
-		alertBox.style.display = 'none';
-	}, 3000);
+	showToast("复制成功/Success", 3000)
 }
