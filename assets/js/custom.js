@@ -1,5 +1,5 @@
 var userAgent = navigator.userAgent;
-var API_BASE_URL = 'lecdapi.yaofan.site';
+var API_BASE_URL = 'lecdapi.111533.xyz';
 var App_Key = '7iudhWquXYN0uToAuxseBFJe'
 
 // 判断是否在微信内
