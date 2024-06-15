@@ -1,6 +1,7 @@
 var userAgent = navigator.userAgent;
 var API_BASE_URL = 'lecdapi.111533.xyz';
 var App_Key = '7iudhWquXYN0uToAuxseBFJe'
+var App_ID = 'XsJ7yqBSeG6Mu9ItZBjeKmuy-MdYXbMMI'
 
 // 判断是否在微信内
 if (userAgent.indexOf("MicroMessenger") !== -1) {
@@ -204,7 +205,7 @@ const fetchData = async () => {
 			headers: {
 				'Content-Type': 'application/json',
 				'X-LC-Sign': sign + ',' + timestamp,
-				'X-LC-Id': 'XsJ7yqBSeG6Mu9ItZBjeKmuy-MdYXbMMI',
+				'X-LC-Id': App_ID,
 			}
 		})
 		const data = await response.json();
