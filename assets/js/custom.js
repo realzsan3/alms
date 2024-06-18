@@ -230,7 +230,7 @@ const analyzeData = (results) => {
 	}, results[0]);
 	
 	const summaryElement = document.getElementById('summary');
-	summaryElement.innerHTML = `截至 ${new Date().toLocaleDateString()}，有 ${donorCount} 个大善人共布施了 ${totalAmount.toFixed(2)} 元！其中 <span class="legendary">${topDonor.name}</span> 大善人布施最多，为 ${topDonor.amount} 元!</br>Up to ${new Date().toLocaleDateString()}, ${donorCount} philanthropists have contributed a total of ${totalAmount.toFixed(2)} yuan! Among them, the top contributor, <span class="legendary">${topDonor.name}</span>, donated ${topDonor.amount} yuan.`;
+	summaryElement.innerHTML = `截至 ${new Date().toLocaleDateString()}，有 ${donorCount} 位大善人共布施了 ${totalAmount.toFixed(2)} 元！其中 <span class="legendary">${topDonor.name}</span> 大善人布施最多，为 ${topDonor.amount} 元!</br>Up to ${new Date().toLocaleDateString()}, ${donorCount} philanthropists have contributed a total of ${totalAmount.toFixed(2)} yuan! Among them, the top contributor, <span class="legendary">${topDonor.name}</span>, donated ${topDonor.amount} yuan.`;
 	
 
 };
