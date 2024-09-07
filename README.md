@@ -10,7 +10,7 @@
 
 ## 克隆代码
 
-`git clone https://github.com/yong-s/alms.git`
+`git clone https://github.com/realzsan3/alms.git`
 
 ## 修改配置
 
