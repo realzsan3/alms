@@ -26,7 +26,7 @@
 
 支付宝替换：`qrcode`后面的值改为自己的收款码链接
 
-`alipays://platformapi/startapp?saId=10000007&qrcode=https%3A%2F%2Fqr.alipay.com%2Ffkx17568wleuqk0ebdb8ia3`
+`alipays://platformapi/startapp?saId=10000007&qrcode=https%3A%2F%2Fqr.alipay.com%2xxxoooxxxxooooia3`
 
 ### 替换为自己的leancloud API key
 
@@ -67,7 +67,7 @@ with open("base642image", "w") as base64img:
 
 ## 部署
 
-### 推荐[cloudflare-page](https://dash.cloudflare.com/3014b5f3c656f699db6e995b28a8eb44/workers-and-pages/create/pages)
+### 推荐[cloudflare-page](https://dash.cloudflare.com/)
 
 域名、网页全托管，妈妈再也不担心我的网页速度和安全了
 
