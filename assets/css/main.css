@@ -1679,11 +1679,16 @@ header>p {
 
 .image {
 	display: inline-block;
+	width: 80%;     /* 控制整体宽度 */
+	max-width: 280px;
+	margin: auto;
 }
 
 .image img {
 	display: block;
-	width: 100%;
+	width: 100%;     /* 填满容器 */
+	height: auto;    /* 保持比例 */
+	display: block;  /* 去掉底部空隙 */
 }
 
 .image.fit {
@@ -1863,7 +1868,7 @@ ul.actions li:first-child {
 
 /* Icons */
 
-.icon {
+/* .icon {
 	text-decoration: none;
 	position: relative;
 	text-decoration: none;
@@ -1896,7 +1901,29 @@ ul.actions li:first-child {
 
 .icon>.label {
 	display: none;
-}
+} */
+
+.icon {
+	font-size: 0.85em;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	line-height: 1;
+	font-weight: 400;
+	vertical-align: middle;
+  }
+
+ /* solid 图标加粗 */
+.fa-solid.icon {
+	font-weight: 900;
+  }
+  
+ /* 自动隐藏 label（可选） */
+.label {
+	display: none;
+  }
 
 /* Nav */
 
