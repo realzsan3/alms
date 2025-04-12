@@ -101,3 +101,14 @@ with open("base642image", "w") as base64img:
 4. 感谢ChatGPT🙏，纯原生js，通过GPT辅助完成✅
 5. 感谢Midjourney🙏提供背景图片
 6. [favicon](https://favicon.io/emoji-favicons/bowl-with-spoon/)提供favicon支持
+
+
+# Star History
+
+<a href="https://www.star-history.com/#realzsan3/alms&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=realzsan3/alms&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=realzsan3/alms&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=realzsan3/alms&type=Date" />
+ </picture>
+</a>
