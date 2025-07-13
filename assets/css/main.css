@@ -1681,7 +1681,7 @@ header>p {
 .image {
 	display: inline-block;
 	width: 80%;     /* 控制整体宽度 */
-	max-width: 280px;
+	max-width: 120px;
 	margin: auto;
 }
 
