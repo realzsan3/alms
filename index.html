@@ -578,25 +578,36 @@
       white-space: nowrap;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
-    /* desktop only: show QR in tooltip */
+    /* QR expand area — 默认收起，点卡片展开，手机桌面统一 */
     .hb-qr-wrap {
-      display: none;
+      display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       padding-top: 12px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s ease, padding .35s;
+      padding-bottom: 0;
     }
-    .hb-card.expanded .hb-qr-wrap { display: flex; }
+    .hb-card.expanded .hb-qr-wrap {
+      max-height: 320px;
+      opacity: 1;
+      padding-bottom: 4px;
+    }
     .hb-qr-img {
       width: 160px; height: 160px;
       border-radius: 10px;
       background: #fff;
       object-fit: contain;
       display: block;
+      flex-shrink: 0;
     }
     .hb-qr-hint {
       font-size: 11px;
       color: rgba(255,200,100,0.4);
+      text-align: center;
     }
 
     /* toggle chevron */
@@ -604,7 +615,8 @@
       font-size: 11px;
       color: var(--text-muted);
       margin-left: 2px;
-      transition: transform .2s;
+      transition: transform .3s;
+      flex-shrink: 0;
     }
     .hb-card.expanded .hb-chevron { transform: rotate(180deg); }
 
@@ -1018,14 +1030,19 @@ function renderHongbaos() {
           <div class="hb-desc">${escHtml(hb.desc)}</div>
         </div>
         <div class="hb-action">
-          ${isMobile
-            ? `<a class="hb-open-btn" href="${escHtml(hb.appLink)}" onclick="event.stopPropagation()"
-                style="background:${hb.color}">
-                ${escHtml(hb.appLabel)} ›
-               </a>`
-            : `<span class="hb-tag-qr">扫码领取</span>
-               <span class="hb-chevron">▾</span>`
-          }
+          <span class="hb-chevron">▾</span>
+        </div>
+      </div>
+      <div class="hb-qr-wrap" onclick="event.stopPropagation()">
+        <img class="hb-qr-img" src="${qrSrc}" alt="${escHtml(hb.platform)}二维码" loading="lazy" />
+        <div class="hb-qr-hint">${escHtml(hb.qrHint)}</div>
+        ${hb.appLink
+          ? `<a class="hb-open-btn" href="${escHtml(hb.appLink)}"
+               style="background:${hb.color}"
+               onclick="event.stopPropagation()">
+               ${escHtml(hb.appLabel)} ›
+             </a>`
+          : ''}
         </div>
       </div>
       ${!isMobile ? `
