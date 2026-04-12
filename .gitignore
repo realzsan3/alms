@@ -3,6 +3,10 @@
 .AppleDouble
 .LSOverride
 
+schema.sql
+secret
+worker.js
+wrangler.toml
 # Icon must end with two \r
 Icon
 
