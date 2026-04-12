@@ -434,6 +434,8 @@
       transform: translateY(100%);
       transition: transform .35s cubic-bezier(.22,.68,0,1.2);
       position: relative;
+      max-height: 85vh;        /* ← 加这行，最多占屏幕 85% */
+      overflow-y: auto;        /* ← 加这行，超出可滚动 */
     }
     .modal-overlay.open .modal { transform: translateY(0); }
 
@@ -484,34 +486,30 @@
 
     /* ── Hongbao cards ── */
     .hb-cards {
-      padding: 0 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+  padding: 0 16px 8px;   /* ← bottom 从 0 改成 8px */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-    .hb-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px;
-      padding: 14px 16px;
-      text-decoration: none;
-      transition: background .15s, border-color .15s, transform .1s;
-      position: relative;
-      overflow: hidden;
-    }
+    /* 卡片：竖排，上方平台信息，下方二维码区 */
+.hb-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-decoration: none;
+  position: relative;
+}
     .hb-card::before {
       content: '';
       position: absolute; inset: 0;
       background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
       pointer-events: none;
     }
-    .hb-card:active { transform: scale(0.98); }
-
-    /* platform color accent line on left */
+    /* 左侧平台色竖线 */
     .hb-card::after {
       content: '';
       position: absolute;
@@ -521,6 +519,13 @@
       background: var(--hb-color, var(--red));
     }
 
+    /* 上方：图标 + 平台名 + 描述，横排 */
+    .hb-card-inner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
     .hb-logo {
       width: 44px; height: 44px;
       border-radius: 12px;
@@ -529,7 +534,6 @@
       flex-shrink: 0;
       background: var(--hb-bg, rgba(232,51,58,0.15));
     }
-
     .hb-info { flex: 1; min-width: 0; }
     .hb-platform {
       font-size: 15px;
@@ -542,25 +546,39 @@
       color: var(--text-muted);
     }
 
-    .hb-action {
+    /* 下方：二维码区，默认直接显示 */
+    .hb-qr-wrap {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .hb-qr-img {
+      width: 80px;
+      height: 80px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      background: #fff;
+      object-fit: contain;
+      display: block;
+    }
+    .hb-qr-right {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-      flex-shrink: 0;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+    .hb-qr-hint {
+      font-size: 11px;
+      color: rgba(255,200,100,0.45);
+      line-height: 1.5;
     }
 
-    /* "扫码" tag */
-    .hb-tag-qr {
-      font-size: 10px;
-      letter-spacing: .05em;
-      color: rgba(255,255,255,0.3);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 4px;
-      padding: 1px 5px;
-    }
-
-    /* open-in-app button */
+    /* 打开 App 按钮 */
     .hb-open-btn {
       display: inline-flex;
       align-items: center;
@@ -570,62 +588,14 @@
       font-family: var(--font-body);
       font-size: 12px;
       font-weight: 700;
-      padding: 5px 12px;
+      padding: 7px 14px;
       border-radius: 50px;
       border: none;
       cursor: pointer;
       text-decoration: none;
       white-space: nowrap;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    /* QR expand area — 默认收起，点卡片展开，手机桌面统一 */
-    .hb-qr-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      padding-top: 12px;
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s ease, padding .35s;
-      padding-bottom: 0;
-    }
-    .hb-card.expanded .hb-qr-wrap {
-      max-height: 320px;
-      opacity: 1;
-      padding-bottom: 4px;
-    }
-    .hb-qr-img {
-      width: 160px; height: 160px;
-      border-radius: 10px;
-      background: #fff;
-      object-fit: contain;
-      display: block;
-      flex-shrink: 0;
-    }
-    .hb-qr-hint {
-      font-size: 11px;
-      color: rgba(255,200,100,0.4);
-      text-align: center;
-    }
-
-    /* toggle chevron */
-    .hb-chevron {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-left: 2px;
-      transition: transform .3s;
-      flex-shrink: 0;
-    }
-    .hb-card.expanded .hb-chevron { transform: rotate(180deg); }
-
-    /* Full-card clickable layout for mobile vs desktop */
-    .hb-card-inner {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      width: 100%;
+      align-self: flex-start;
     }
 
     .modal-footer-tip {
@@ -703,7 +673,7 @@
       <!-- JS 渲染 -->
     </div>
 
-    <div class="modal-footer-tip">桌面端点击展开二维码 · 手机端点按钮直达 App</div>
+    <div class="modal-footer-tip">扫码领取 · 或点按钮直接打开 App</div>
   </div>
 </div>
 
@@ -1015,52 +985,30 @@ function applyConfig() {
 ═══════════════════════════════════════════ */
 function renderHongbaos() {
   const container = document.getElementById('hb-cards');
-  const placeholder = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Crect width='160' height='160' fill='%23f0f0f0'/%3E%3Ctext x='80' y='72' font-size='12' text-anchor='middle' fill='%23aaa'%3E二维码%3C/text%3E%3Ctext x='80' y='92' font-size='11' text-anchor='middle' fill='%23ccc'%3E替换为你的图片%3C/text%3E%3C/svg%3E`;
+  const placeholder = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23f0f0f0'/%3E%3Ctext x='40' y='44' font-size='10' text-anchor='middle' fill='%23bbb'%3E二维码%3C/text%3E%3C/svg%3E`;
 
   container.innerHTML = CONFIG.hongbaos.map((hb, i) => {
     const qrSrc = (hb.qr && !hb.qr.startsWith('PLACEHOLDER')) ? hb.qr : placeholder;
     return `
-    <div class="hb-card" id="hbc-${i}"
-      style="--hb-color:${hb.color}; --hb-bg:${hb.bg};"
-      onclick="toggleHbCard(${i})">
+    <div class="hb-card" id="hbc-${i}" style="--hb-color:${hb.color}; --hb-bg:${hb.bg};">
       <div class="hb-card-inner">
         <div class="hb-logo">${hb.icon}</div>
         <div class="hb-info">
           <div class="hb-platform">${escHtml(hb.platform)}</div>
           <div class="hb-desc">${escHtml(hb.desc)}</div>
         </div>
-        <div class="hb-action">
-          <span class="hb-chevron">▾</span>
-        </div>
       </div>
-      <div class="hb-qr-wrap" onclick="event.stopPropagation()">
+      <div class="hb-qr-wrap">
         <img class="hb-qr-img" src="${qrSrc}" alt="${escHtml(hb.platform)}二维码" loading="lazy" />
-        <div class="hb-qr-hint">${escHtml(hb.qrHint)}</div>
-        ${hb.appLink
-          ? `<a class="hb-open-btn" href="${escHtml(hb.appLink)}"
-               style="background:${hb.color}"
-               onclick="event.stopPropagation()">
-               ${escHtml(hb.appLabel)} ›
-             </a>`
-          : ''}
+        <div class="hb-qr-right">
+          <div class="hb-qr-hint">${escHtml(hb.qrHint)}</div>
+          ${hb.appLink ? `<a class="hb-open-btn" href="${escHtml(hb.appLink)}" style="background:${hb.color}">${escHtml(hb.appLabel)} ›</a>` : ''}
         </div>
       </div>
-      ${!isMobile ? `
-      <div class="hb-qr-wrap" onclick="event.stopPropagation()">
-        <img class="hb-qr-img" src="${qrSrc}" alt="${escHtml(hb.platform)}二维码" />
-        <div class="hb-qr-hint">${escHtml(hb.qrHint)}</div>
-        ${hb.appLink ? `<a class="hb-open-btn" href="${escHtml(hb.appLink)}"
-          style="background:${hb.color};margin-top:4px">${escHtml(hb.appLabel)} ›</a>` : ''}
-      </div>` : ''}
     </div>`;
   }).join('');
 }
 
-function toggleHbCard(i) {
-  if (isMobile) return; // mobile uses direct app link
-  const card = document.getElementById('hbc-' + i);
-  card.classList.toggle('expanded');
-}
 
 /* ═══════════════════════════════════════════
    MODAL
