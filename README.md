@@ -136,3 +136,13 @@ curl -X POST https://your-worker.workers.dev/api/admin/delete \
 ## License
 
 MIT
+
+## Star History
+
+<a href="https://www.star-history.com/#realzsan3/alms&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=realzsan3/alms&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=realzsan3/alms&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=realzsan3/alms&type=Date" />
+ </picture>
+</a>
