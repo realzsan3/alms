@@ -1,117 +1,138 @@
-# 7X24小时在线要饭🍚，欢迎👏各位老板打赏，打赏一分也是爱
-### 布施随缘，福田自来 🙏 扫码支持顺便领红包。Scan to tip & get a food coupon.
+> 史诗级更新2.0版本，1.0版本不建议食用，leancloud 2027年将不再提供服务，尽早迁移到cf上，享受全新服务 
 
-1. 纯原生js手撸，无任何框架
-2. 不用数据库，不用部署服务器上
-3. 零成本，网站部署CF，CF托管加速，数据托管在`leancloud`
-4. 移动端交互体验超棒，一键打赏，免去app来回切换
-5. 微信内分享打赏更方便，长按即可（需域名备案
-6. 增加红包页面，建议使用领红包代替打赏（站着要饭，不是）
-7. 添加社交分享 Open Graph /SEO优化(借助ChatGPT 优化，顺便生成了一张[分享图](https://111533.xyz/images/og-image.jpg)大家看看这图生成的怎么样？我要吹爆了🫡 AI 越来越强了)
+# 🧧 打赏页
 
-# 食用场景
+> 红包引流 + 打赏收款 + 留言榜单，部署在 Cloudflare 全家桶，零成本。
 
-文章最后加赞赏，Blog打赏页面
+## 技术栈
 
-# 食用教程：
+| 模块 | 方案 |
+|------|------|
+| 前端托管 | Cloudflare Pages |
+| API | Cloudflare Workers |
+| 数据库 | Cloudflare D1（SQLite） |
+| 图片存储 | Cloudflare R2（红包二维码） |
+| 人机验证 | Cloudflare Turnstile |
 
-## 克隆代码
+## 目录结构
 
-`git clone https://github.com/realzsan3/alms.git`
-
-## 修改配置
-
-### 替换为自己的收款码
-
-在`images`内分别替换微信、支付宝的收款码
-
-### 替换为自己的scheme url
-
-支付宝替换：`qrcode`后面的值改为自己的收款码链接
-
-`alipays://platformapi/startapp?saId=10000007&qrcode=https%3A%2F%2Fqr.alipay.com%2xxxoooxxxxooooia3`
-
-### 替换为自己的leancloud API key
-
-1. 没有去注册[leancloud](https://console.leancloud.app/apps)，国际版不用备案
-2. 使用开发版（免费
-3. 设置-应用凭证-复制`AppKey`
-4. `custom.js`内修改`App_Key`为上一步复制的
-5. 国际版需要使用自定义的域名，`API_BASE_URL` 改为自己的，先去`设置-域名绑定`
-
-### img to base64
-
-- 自己本地转换python
-
-```python
-import base64
-
-def image_to_base64(image_path):
-    with open(image_path, "rb") as image_file:
-        # output to base64
-        encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
-    # output to html img   
-    return f'<img src="data:image/jpeg;base64,{encoded_string}" alt="图片描述">'
-    # output to css
-    # return f'.image {{ background-image: url("data:image/jpeg;base64,{encoded_string}"); }}'
-
-
-# 替换为你的图像文件路径
-image_path = "/Users/Downloads/btc.png"
-html_img_tag = image_to_base64(image_path)
-print(html_img_tag)
-with open("base642image", "w") as base64img:
-    base64img.write(html_img_tag)
+```
+├── index.html      前端页面（单文件）
+├── worker.js       CF Worker API
+├── wrangler.toml   Worker 配置
+├── schema.sql      D1 数据库初始化
+└── .dev.vars       本地环境变量（不提交 git）
 ```
 
-- 在线转换
-  
-  [Image to Base64 | Base64 Encode | Base64 Converter | Base64](https://base64.guru/converter/encode/image)
+## 快速开始
 
-## 部署
+### 1. 安装依赖
 
-### 推荐[cloudflare-page](https://dash.cloudflare.com/)
+```bash∏
+npm install -g wrangler
+wrangler login
+```
 
-域名、网页全托管，妈妈再也不担心我的网页速度和安全了
+### 2. 创建 D1 数据库
 
-真 * 慈善家
+```bash
+wrangler d1 create donation-db
+# 把输出的 database_id 填入 wrangler.toml
+```
 
-### GitHub pages等服务器
+### 3. 初始化表结构
 
-通过GitHub pages，域名托管在cloudflare上，几块钱买一年的域名，完美搞定
+```bash
+# 本地
+wrangler d1 execute donation-db --local --file=schema.sql
 
-### 对象存储
+# 线上
+wrangler d1 execute donation-db --remote --file=schema.sql
+```
 
-优点：免去域名备案，微信内直接打开，腾讯云cos按量计费
-缺点：🈚️，要说有，就是不知道这个口子啥时候会被关了
+### 4. 配置环境变量
 
-1. 去腾讯☁️后台，找到对象存储，新建存储桶，基础配置，静态网站打开
-2. 上传`index.html` `assets` `images`
-3. 直接访问给的域名即可
+本地新建 `.dev.vars`：
 
-# TO DO
+```
+TURNSTILE_SECRET=1x0000000000000000000000000000000BB
+ADMIN_KEY=local-test-key
+ALLOWED_ORIGIN=http://localhost:8788
+```
 
-- [x] 实现对象存储，可以免去备案，方便微信内分享
-- [x] 国际化，中英文显示
-- [ ] ~~支持国际（PayPal）收款，开启全世界要饭模式🤣~~
-- [x] 支持加密货币收款₿
+线上：
 
-# 感谢
+```bash
+wrangler secret put TURNSTILE_SECRET
+wrangler secret put ADMIN_KEY
+wrangler secret put ALLOWED_ORIGIN   # 支持逗号分隔多个域名
+```
 
-1. 模版来自[HTML5 UP](html5up.net)
-2. [部分灵感参考](https://github.com/DomeenoH/Hexo-Donate)
-3. [donate](https://blog.dominoh.com/donate)
-4. 感谢ChatGPT🙏，纯原生js，通过GPT辅助完成✅
-5. 感谢Midjourney🙏提供背景图片
-6. [favicon](https://favicon.io/emoji-favicons/bowl-with-spoon/)提供favicon支持
+### 5. 本地调试
 
+```bash
+wrangler dev --local        # 启动 Worker（:8787）
+python3 -m http.server 8788 # 启动前端（:8788）
+```
 
-# Star History
+### 6. 部署
 
-<a href="https://www.star-history.com/#realzsan3/alms&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=realzsan3/alms&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=realzsan3/alms&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=realzsan3/alms&type=Date" />
- </picture>
-</a>
+```bash
+wrangler deploy
+# 把 index.html 推到 CF Pages
+```
+
+## 配置说明
+
+所有配置集中在 `index.html` 顶部的 `CONFIG` 对象：
+
+```js
+CONFIG = {
+  apiBase: '',        // Worker URL
+  pay: {
+    wechat:  { qr: 'base64...', appLink: 'weixin://' },
+    alipay:  { qr: 'base64...', appLink: 'alipays://...' },
+    btc:     { qr: 'base64...', address: 'bc1q...' },
+  },
+  hongbaos: [         // 红包列表，支持任意数量
+    { platform, desc, icon, color, bg, qr, qrHint, appLink, appLabel }
+  ],
+  seed: [],           // 打赏榜预置数据
+}
+```
+
+**收款码**（固定）→ 转成 base64 填入 `CONFIG.pay`
+
+**红包二维码**（常换）→ 上传到 CF R2，填 R2 公开 URL，换图直接覆盖文件无需重新部署
+
+## 留言审核
+
+```bash
+# 查看待审核
+curl https://your-worker.workers.dev/api/admin/pending \
+  -H "Admin-Key: YOUR_ADMIN_KEY"
+
+# 审核通过
+curl -X POST https://your-worker.workers.dev/api/admin/approve \
+  -H "Admin-Key: YOUR_ADMIN_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"id": 1}'
+
+# 审核拒绝
+curl -X POST https://your-worker.workers.dev/api/admin/reject \
+  -H "Admin-Key: YOUR_ADMIN_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"id": 1}'
+
+# 删除记录
+curl -X POST https://your-worker.workers.dev/api/admin/delete \
+  -H "Admin-Key: YOUR_ADMIN_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"id": 1}'
+```
+
+手机端推荐用 **Apidog** 保存以上请求，一键操作。
+
+## License
+
+MIT
