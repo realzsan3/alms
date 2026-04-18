@@ -6,6 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>打赏 · 布施随缘</title>
   <meta name="description" content="布施随缘，福田自来 🙏 领个红包，顺手支持一下。" />
+
+  <!-- Open Graph — 微信/QQ/Twitter 分享卡片 -->
+  <meta property="og:title" content="🧧 先领个红包，再说打赏的事" />
+  <meta property="og:description" content="布施随缘，福田自来 🙏 扫码领红包，顺手支持创作者。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://111533.xyz" />
+  <meta property="og:image" content="https://111533.xyz/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="布施随缘" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="🧧 先领个红包，再说打赏的事" />
+  <meta name="twitter:description" content="布施随缘，福田自来 🙏 扫码领红包，顺手支持创作者。" />
+  <meta name="twitter:image" content="https://111533.xyz/og-image.png" />
+
   <meta property="og:title" content="打赏 · 布施随缘" />
   <meta property="og:description" content="布施随缘，福田自来 🙏 领个红包，顺手支持一下。" />
   <meta property="og:type" content="website" />
@@ -815,6 +830,51 @@
       color: rgba(255, 255, 255, 0.18);
     }
 
+    /* ── 分享按钮 ── */
+    .hb-share-wrap {
+      padding: 14px 16px 4px;
+      text-align: center;
+    }
+
+    .hb-share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      color: rgba(255, 200, 100, 0.7);
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 12px;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+
+    .hb-share-btn:hover {
+      background: rgba(255, 200, 100, 0.08);
+      border-color: rgba(255, 200, 100, 0.3);
+    }
+
+    .hb-share-btn:active {
+      transform: scale(0.98);
+    }
+
+    .hb-share-copied {
+      font-size: 12px;
+      color: #4ade80;
+      margin-top: 8px;
+      height: 18px;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .hb-share-copied.show {
+      opacity: 1;
+    }
+
     /* ═══════════════════════════════════════
        FOOTER
     ═══════════════════════════════════════ */
@@ -893,7 +953,15 @@
         <!-- JS 渲染 -->
       </div>
 
-      <div class="modal-footer-tip">扫码领取 · 或点按钮直接打开 App</div>
+       <!-- 分享按钮 -->
+    <div class="hb-share-wrap">
+      <button class="hb-share-btn" onclick="shareHongbao()">
+        <span>🔗</span> 分享给朋友，一起领红包
+      </button>
+      <div class="hb-share-copied" id="hb-share-copied">链接已复制 ✓</div>
+    </div>
+  </div>
+</div>
     </div>
   </div>
 
@@ -1232,6 +1300,30 @@
       }).join('');
     }
 
+    /* ═══════════════════════════════════════════
+   SHARE
+═══════════════════════════════════════════ */
+    function shareHongbao() {
+      const url = location.href;
+      const title = '🧧 先领个红包，再说打赏的事';
+      const text = '布施随缘，福田自来 🙏 扫码领红包，顺手支持创作者。';
+
+      // 优先使用原生分享（手机端）
+      if (navigator.share) {
+        navigator.share({ title, text, url }).catch(() => { });
+        return;
+      }
+
+      // PC 端降级：复制链接
+      navigator.clipboard.writeText(url).then(() => {
+        const tip = document.getElementById('hb-share-copied');
+        tip.classList.add('show');
+        setTimeout(() => tip.classList.remove('show'), 2500);
+      }).catch(() => {
+        // 再降级：prompt
+        window.prompt('复制链接：', url);
+      });
+    }
 
     /* ═══════════════════════════════════════════
        MODAL
@@ -1430,8 +1522,6 @@
       document.getElementById('board-hidden').style.display = 'block';
       document.getElementById('board-expand-btn').parentElement.style.display = 'none';
     }
-
-
 
 
     function escHtml(str) {
